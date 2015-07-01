@@ -1,0 +1,7 @@
+name: "${project.name}"
+version: "${project.version}"
+main: ninja.leaping.permissionsex.bukkit.PermissionsExPlugin
+commands:
+    permissionsex:
+        aliases: ["pex"]
+        description: Command for PermissionsEx
