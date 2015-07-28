@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableSet;
 import ninja.leaping.permissionsex.PermissionsEx;
 import ninja.leaping.permissionsex.util.Combinations;
 import ninja.leaping.permissionsex.util.NodeTree;
+import ninja.leaping.permissionsex.util.glob.Globs;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -112,11 +113,14 @@ class SubjectDataBaker {
                 perm = perm.substring(1);
             }
 
-            Integer existing = combinedPermissions.get(ent.getKey());
-            if (existing == null || Math.abs(ent.getValue()) > Math.abs(existing)) {
-                combinedPermissions.put(perm, ent.getValue());
+            for (String matched : Globs.parse(perm)) {
+                Integer existing = combinedPermissions.get(matched);
+                if (existing == null || Math.abs(ent.getValue()) > Math.abs(existing)) {
+                    combinedPermissions.put(matched, ent.getValue());
+                }
             }
         }
+
         parents.addAll(data.getParents(specificCombination));
         for (Map.Entry<String, String> ent : data.getOptions(specificCombination).entrySet()) {
             if (!options.containsKey(ent.getKey())) {
